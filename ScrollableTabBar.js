@@ -31,8 +31,8 @@ const ScrollableTabBar = createReactClass({
     renderTab: PropTypes.func,
     underlineStyle: ViewPropTypes.style,
     onScroll: PropTypes.func,
+    showUnderline: PropTypes.func,
     renderTabView: PropTypes.func,
-    showUnderline: PropTypes.bool,
   },
 
   getDefaultProps () {
@@ -131,27 +131,22 @@ const ScrollableTabBar = createReactClass({
     const textColor = isTabActive ? activeTextColor : inactiveTextColor
     const fontWeight = isTabActive ? 'bold' : 'normal'
 
-    {
-      return <Button
-        key={`${name}_${page}`}
-        accessible={true}
-        accessibilityLabel={name}
-        accessibilityTraits='button'
-        onPress={() => onPressHandler(page)}
-        // 此属性非常重要，可 自动滚动到初始化的 tab
-        onLayout={onLayoutHandler}
-      >
-        {
-          renderTabView ? renderTabView({ name, page, isTabActive, }) : <View
-            style={[styles.tab, this.props.tabStyle, {}]}>
-            <Text style={[{ color: textColor, fontWeight, }, textStyle,]}>
-              {name}
-            </Text>
-          </View>
-        }
-
-      </Button>
-    }
+    return <Button
+      key={`${name}_${page}`}
+      accessible={true}
+      accessibilityLabel={name}
+      accessibilityTraits='button'
+      onPress={() => onPressHandler(page)}
+      onLayout={onLayoutHandler}
+    >
+      {
+        renderTabView ? renderTabView({ name, page, isTabActive, }) : <View style={[styles.tab, this.props.tabStyle,]}>
+          <Text style={[{ color: textColor, fontWeight, }, textStyle,]}>
+            {name}
+          </Text>
+        </View>
+      }
+    </Button>
   },
 
   measureTab (page, event) {
